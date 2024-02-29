@@ -1,0 +1,1077 @@
+swagger: "2.0"
+info:
+  title: Merchant Acquiring Facility Information - Payment Information
+  version: 1.0.1
+  description: >-
+    API privada que permite solicitar la generación de un reporte de abonos de
+    adquirencia - conciliar en un formato establecido.
+  x-ibm-name: merchant-acquiring-facility-information-payment-information
+basePath: >-
+  /v1/operations/cards/merchant-acquiring-facility-information/payment-information
+paths:
+  /request-sales-report:
+    post:
+      operationId: requestSalesReport
+      summary: >-
+        Operación que permite obtener el identificador único (ID) del reporte de
+        abonos conciliar solicitado.
+      description: >
+        ### Clasificación de la información: Confidencial
+
+        API privada que solicita la generación de un reporte de abonos de
+        adquirencia - conciliar en un formato establecido.
+      parameters:
+        - name: message-id
+          in: header
+          required: true
+          type: string
+          description: >-
+            Identificador de transacción. Se recomienda usar un UUID para el
+            valor de este campo Ejemplo: c4e6bd04-5149-11e7-b114-b2f933d5fe66.
+        - name: accept
+          in: header
+          required: false
+          type: string
+          description: >-
+            application/vnd.bancolombia.v4+json, el cual representa el formato
+            de mensajería.
+        - name: requestBody
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/requestSalesReportRequest"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/requestSalesReportResponse"
+          description: Respuesta exitosa
+          x-ibm-languages:
+            description:
+              en: Successful response.
+          headers:
+            Content-Type:
+              type: string
+              description: >-
+                Formato de mensajeria de la API. Ejemplo:
+                application/vnd.bancolombia.v4+json.
+              x-ibm-languages:
+                description:
+                  en: >-
+                    API message format. Example:
+                    application/vnd.bancolombia.v4+json.
+            API-Version:
+              type: string
+              description: "Version de la API. Ejemplo: 1.0.0."
+              x-ibm-languages:
+                description:
+                  en: "API Version. Example: 1.0.0."
+            RateLimit-Limit:
+              type: number
+              description: Limite de solicitudes por intervalo de tiempo
+              x-ibm-languages:
+                description:
+                  en: Resquest limit per time interval.
+            Message-Id:
+              type: string
+              description: >-
+                Identificador del mensaje o de correlación usado para la
+                trazabilidad de los llamados a las APIs.
+              x-ibm-languages:
+                description:
+                  en: >-
+                    Message identifier or correlation identifier used for the
+                    traceability of the API calls.
+        "400":
+          $ref: "#/responses/400"
+        "401":
+          $ref: "#/responses/401"
+        "404":
+          $ref: "#/responses/404"
+        "409":
+          $ref: "#/responses/409"
+        "500":
+          $ref: "#/responses/500"
+        "502":
+          $ref: "#/responses/502"
+        "503":
+          $ref: "#/responses/503"
+        "504":
+          $ref: "#/responses/504"
+      security:
+        - Client Id: []
+          Client Secret: []
+      tags:
+        - MerchantAcquiringFacilityInformation
+  /merchant-acquiring-facility-information-payment-information/health:
+    head:
+      operationId: healthOperation
+      summary: Operación que permite realizar el monitoreo.
+      description: Operación que permite realizar el monitoreo de la API.
+      responses:
+        "200":
+          description: Respuesta exitosa.
+          x-ibm-languages:
+            description:
+              en: Successful response.
+      security:
+        - Client Id: []
+          Client Secret: []
+      tags:
+        - Monitoring
+responses:
+  "400":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Error en la solicitud.
+    x-ibm-languages:
+      description:
+        en: Error in the request.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe66
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 400
+        title: Bad Resquest
+        errors:
+          - code: SA404
+            detail: >-
+              La longitud de la parte entera del parametro trackingId es
+              invalida
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "401":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Credenciales incorrectas.
+    x-ibm-languages:
+      description:
+        en: Incorrect credentials.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 401
+        title: Unauthorized
+        errors:
+          - code: SA401
+            detail: El consumidor no tiene acceso a la información solicitada
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "404":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Recurso no encontrado.
+    x-ibm-languages:
+      description:
+        en: Resource not found.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 404
+        title: Not Found
+        errors:
+          - code: BP12700891
+            detail: EL CLIENTE NO TIENE CUENTAS DEL TIPO SOLICITADO
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "409":
+    schema:
+      $ref: "#/definitions/failure"
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+    x-ibm-languages:
+      description:
+        en: Resource state has conflicts with data of the request.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 409
+        title: Conflict
+        errors:
+          - code: BP12700871
+            detail: EL BENEFICIARIO SE ENCUENTRA EN LISTA DE CONTROL
+    description: >
+      El estado del recurso presenta conflictos con los datos de la solicitud.
+
+      ### Códigos de error
+
+      Listado de códigos de error
+
+      | code | detail |
+
+      | --------------- | --------------- |
+
+      | BP12700858 | EL NUMERO Y TIPO DE DOCUMENTO NO PERTENECE A UN CLIENTE
+      BANCOLOMBIA O DE COMERCIO INTERNACIONAL BANCOLOMBIA |
+
+      | BP12700871 | EL BENEFICIARIO SE ENCUENTRA EN LISTA DE CONTROL |
+
+      | BP12700865 | ERROR EN EL REVERSO DE LA DECLARACION DE CAMBIO |
+  "500":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Error interno del servidor.
+    x-ibm-languages:
+      description:
+        en: Internal server error.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 500
+        title: Internal Server Error
+        errors:
+          - code: SP500
+            detail: Ha ocurrido un error interno controlado en el servidor.
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "502":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Error en la respuesta del proveedor del servicio.
+    x-ibm-languages:
+      description:
+        en: Error in the service provider response.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 502
+        title: Bad Gateway
+        errors:
+          - code: SP502
+            detail: El mensaje de respuesta recibido del servidor es inválido
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "503":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Servicio no disponible.
+    x-ibm-languages:
+      description:
+        en: Service unavailable.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 503
+        title: Service Unavailable
+        errors:
+          - code: SP503
+            detail: >-
+              Por problemas tecnicos su transaccion no pudo atenderse en estos
+              momentos, por favor intente mas tarde
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+  "504":
+    schema:
+      $ref: "#/definitions/failure"
+    description: Tiempo de respuesta del proveedor del servicio excedido.
+    x-ibm-languages:
+      description:
+        en: Service provider response time exceeded.
+    examples:
+      application/vnd.bancolombia.v4+json:
+        meta:
+          _messageId: c4e6bd04-5149-11e7-b114-b2f933d5fe68
+          _requestDateTime: "2017-01-24T05:00:00.000Z"
+          _applicationId: acxff62e-6f12-42de-9012-3e7304418abd
+        status: 504
+        title: Gateway Timeout
+        errors:
+          - code: SP504
+            detail: El proveedor no respondió en tiempo esperado
+    headers:
+      Content-Type:
+        type: string
+        description: >-
+          Formato de mensajería de la API. Ejemplo:
+          application/vnd.bancolombia.v4+json.
+        x-ibm-languages:
+          description:
+            en: "API message format. Example: application/vnd.bancolombia.v4+json."
+      API-Version:
+        type: string
+        description: "Version de la API. Ejemplo: 1.0.0."
+        x-ibm-languages:
+          description:
+            en: "API Version. Example: 1.0.0."
+      RateLimit-Limit:
+        type: number
+        description: Límite de solicitudes por intervalo de tiempo
+        x-ibm-languages:
+          description:
+            en: Resquest limit per time interval.
+      Message-Id:
+        type: string
+        description: >-
+          Identificador del mensaje o de correlación usado para la trazabilidad
+          de los llamados a las APIs.
+        x-ibm-languages:
+          description:
+            en: >-
+              Message identifier or correlation identifier used for the
+              traceability of the API calls.
+definitions:
+  user:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        minLength: 3
+        maxLength: 3
+        example: PLI
+        description: Código del consumidor
+      channelRef:
+        type: string
+        minLength: 1
+        maxLength: 100
+        example: 44f59ec0689f3908a0281330add5d9c7.3206ea55dbd54ff1ade279108a8f311a
+        description: Identificador del consumidor
+  identification:
+    type: object
+    required:
+      - type
+      - number
+    properties:
+      type:
+        type: string
+        minLength: 12
+        maxLength: 12
+        example: TIPDOC_FS003
+        description: Tipo de documento para realizar la consulta
+        enum:
+          - TIPDOC_FS000
+          - TIPDOC_FS001
+          - TIPDOC_FS002
+          - TIPDOC_FS003
+          - TIPDOC_FS004
+          - TIPDOC_FS005
+          - TIPDOC_FS006
+          - TIPDOC_FS007
+          - TIPDOC_FS008
+          - TIPDOC_FS009
+          - TIPDOC_FS010
+      number:
+        type: string
+        minLength: 1
+        maxLength: 50
+        example: "123456789"
+        description: Número del documento de identidad
+  customer:
+    type: object
+    required:
+      - identification
+    properties:
+      identification:
+        $ref: "#/definitions/identification"
+  format:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        minLength: 3
+        maxLength: 3
+        example: XLS
+        description: Código del formato soportado
+        enum:
+          - CSV
+          - TXT
+          - XLS
+  date:
+    type: object
+    required:
+      - startDate
+      - endDate
+    properties:
+      startDate:
+        type: string
+        minLength: 10
+        maxLength: 10
+        example: "2023-05-30"
+        description: Fecha inicial para el reporte solicitado. ISO 8601
+      endDate:
+        type: string
+        minLength: 10
+        maxLength: 10
+        example: "2023-05-31"
+        description: Fecha final para el reporte solicitado. ISO 8601
+  salesReport:
+    type: object
+    required:
+      - customer
+      - format
+      - date
+    properties:
+      customer:
+        $ref: "#/definitions/customer"
+      format:
+        $ref: "#/definitions/format"
+      date:
+        $ref: "#/definitions/date"
+  requestSalesReportRequest:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        type: object
+        required:
+          - user
+          - salesReport
+        properties:
+          user:
+            $ref: "#/definitions/user"
+          salesReport:
+            $ref: "#/definitions/salesReport"
+  paidReport:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+        minLength: 1
+        maxLength: 40
+        example: "2345"
+        description: Identificador de reporte solicitado
+  requestSalesReportResponse:
+    type: object
+    required:
+      - meta
+      - data
+    properties:
+      meta:
+        $ref: "#/definitions/meta"
+      data:
+        type: object
+        required:
+          - paidReport
+        properties:
+          paidReport:
+            $ref: "#/definitions/paidReport"
+  meta:
+    description: Datos de trazabilidad e informacion técnica del mensaje.
+    type: object
+    required:
+      - _messageId
+      - _requestDateTime
+      - _applicationId
+    properties:
+      _messageId:
+        type: string
+        example: c4e6bd04-5149-11e7-b114-b2f933d5fe66
+      _requestDateTime:
+        type: string
+        format: date-time
+        example: "2017-01-24T05:00:00.000Z"
+      _applicationId:
+        type: string
+        example: acxff62e-6f12-42de-9012-3e7304418abd
+  failure:
+    type: object
+    description: Mensaje de respuesta cuando ocurre un error.
+    required:
+      - meta
+      - errors
+    properties:
+      meta:
+        $ref: "#/definitions/meta"
+      status:
+        type: number
+        description: >-
+          Código de estado HTTP (status code) asociado al mensaje de error de la
+          respuesta del llamado a la API.
+        example: 404
+      title:
+        type: string
+        description: >-
+          Título asociado al código de estado HTTP (status code) asociado al
+          mensaje de error de la respuesta del llamado a la API.
+        example: Not Found
+      errors:
+        type: array
+        description: Lista de errores detectados
+        uniqueItems: true
+        items:
+          $ref: "#/definitions/error"
+  error:
+    type: object
+    required:
+      - code
+      - detail
+    properties:
+      code:
+        description: >-
+          Código del mensaje de error. Puede contener un código de un error que
+          ocurrió en la API o en su servicio proveedor, este se indica usando
+          los siguientes prefijos: - SP: Indica un error de sistema o técnico en
+          el proveedor de la API. Ejemplo: 'SP500' - SA: Indica un error de
+          sistema o técnico en la API. Ejemplo: 'SA400' - BP: Indica un error o
+          excepción de negocio en el proveedor de la API. Ejemplo: 'BP12345'
+        type: string
+        example: BP404
+      detail:
+        description: Es la descripción funcional del mensaje de error.
+        type: string
+        example: El recurso consultado no fue encontrado
+schemes:
+  - https
+consumes:
+  - application/vnd.bancolombia.v4+json
+host: $(catalog.host)
+produces:
+  - application/vnd.bancolombia.v4+json
+securityDefinitions:
+  Client Id:
+    type: apiKey
+    description: Identificación de la aplicación consumidora, apiKey o client_id
+    in: header
+    name: Client-Id
+    x-key-type: client_id
+  Client Secret:
+    type: apiKey
+    description: Secreto de la aplicación consumidora o client_secret
+    in: header
+    name: Client-Secret
+    x-key-type: client_secret
+tags:
+  - name: Monitoring
+    description: Operaciones para realizar el monitoreo de la API
+  - name: MerchantAcquiringFacilityInformation
+    description: Operaciones para gestionar actividades relacionadas con adquirencia
+x-ibm-configuration:
+  compatibility:
+    enforce-required-params: false
+    request-headers: true
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  phase: realized
+  properties:
+    endpoint:
+      value: ""
+      description: ""
+      encoded: false
+    TLS-Profile:
+      value: ""
+      description: ""
+      encoded: false
+    catalogName:
+      value: ""
+      description: ""
+      encoded: false
+    hostname:
+      value: ""
+      description: ""
+      encoded: false
+  catalogs:
+    Development:
+      properties:
+        catalogName: development
+        TLS-Profile: apic-tls-profile-medios-de-pago
+        endpoint: >-
+          https://medios-de-pago-int-dev.apps.ambientesbc.com/productor-adquirencia/conciliares
+        hostname: gw-medios-de-pago-dev.apps.ambientesbc.lab
+    Production:
+      properties:
+        catalogName: production
+        TLS-Profile: apic-tls-profile-medios-de-pago
+        endpoint: >-
+          https://medios-de-pago-int.apps.bancolombia.com/productor-adquirencia/conciliares
+        hostname: gw-medios-de-pago.apps.bancolombia.corp
+    Testing:
+      properties:
+        catalogName: testing
+        TLS-Profile: apic-tls-profile-medios-de-pago
+        endpoint: >-
+          https://medios-de-pago-int-qa.apps.ambientesbc.com/productor-adquirencia/conciliares
+        hostname: gw-medios-de-pago-qa.apps.ambientesbc.lab
+    sb:
+      properties:
+        catalogName: sb
+        TLS-Profile: apic-tls-profile-cluster-eks-integracion-sandbox
+        endpoint: https://integracion-int-qa.apps.ambientesbc.lab/
+        hostname: gw-sandbox-qa.apps.ambientesbc.lab
+  gateway: datapower-api-gateway
+  assembly:
+    execute:
+      - gatewayscript:
+          title: init-meta
+          source: |-
+            const init = () => {
+              const meta = {
+                  _messageId: context.get('request.headers.message-id'),
+                  _requestDateTime: context.get('system.datetime') + context.get('system.timezone'),
+                  _applicationId: context.get('client.app.id')
+              }
+              context.set('ctx.meta', meta);
+            }
+                  
+            init();
+          description: Se inicializa el objeto meta del cuerpo de la respuesta del método
+          version: 2.0.0
+      - gatewayscript:
+          title: validate-host-header
+          source: "validateHostHeader();\r\n\r\nfunction validateHostHeader(){\r\n    var validHostName = context.get(\"api.properties.hostname\");\r\n    var headerHost = context.get(\"request.headers.host\");\r\n    \r\n    if (headerHost != validHostName) {\r\n        let error = [{\r\n            code: \"SA400\",\r\n            detail: \"Header Host inválido\"\r\n        }];\r\n        context.set(\"ctx.errors\", error);\r\n        throwParameterError(\"ParametersException\");\r\n    }\r\n}\r\n\r\nfunction throwParameterError(errorName) {\r\n    const description = \"Bad Request\";\r\n    const code = \"400\";\r\n    context.set(\"ctx.errorData\", { description, code });\r\n    context.reject(errorName, description);\r\n    context.message.statusCode = code;\r\n}"
+          description: |-
+            Se inicializa el objeto meta del cuerpo de la respuesta del método
+            Se inicializa el objeto links del cuerpo de respuesta del método
+          version: 2.0.0
+      - switch:
+          title: switch
+          case:
+            - condition: ($operationID() = 'requestSalesReport')
+              execute:
+                - gatewayscript:
+                    title: validate-request
+                    source: "const errors = [];\r\n\r\nvalidateParameters();\r\n\r\nfunction handleError(e) {\r\n  const detail = e.message;\r\n  const code = \"SA500\";\r\n  errors.push({ code, detail });\r\n  context.set(\"ctx.errors\", errors);\r\n  throwParameterError(\"ParametersException\");\r\n}\r\n\r\nfunction validateParameters() {\r\n  try {\r\n    const app = context.get(\"client.app.name\").trim();\r\n    const consumerId = getConsumer(app);\r\n    context.set(\"ctx.consumer\", consumerId);\r\n\r\n    const requestHeaders = context.get(\"request.headers\");\r\n    const headerConstraints = {\r\n      accept: { in: \"header\", type: \"string\", name: \"accept\", required: false },\r\n      \"message-id\": {\r\n        in: \"header\",\r\n        type: \"string\",\r\n        name: \"message-id\",\r\n        required: true,\r\n      }\r\n    };\r\n    validateRequestHeaders(headerConstraints, requestHeaders);\r\n    const bodyConstraints = {\r\n      requestBody: {\r\n        type: \"object\",\r\n        properties: {\r\n          data: {\r\n            type: \"object\",\r\n            properties: {\r\n              user: {\r\n                type: \"object\",\r\n                properties: {\r\n                  id: {\r\n                    type: \"string\",\r\n                    maxLength: 3,\r\n                    minLength: 3,\r\n                    name: \"id (user)\",\r\n                  },\r\n                  channelRef: {\r\n                    type: \"string\",\r\n                    maxLength: 100,\r\n                    minLength: 1\r\n                  }\r\n                },\r\n                required: [\"id\"],\r\n              },\r\n              salesReport: {\r\n                type: \"object\",\r\n                properties: {\r\n                  customer: {\r\n                    type: \"object\",\r\n                    properties: {\r\n                      identification: {\r\n                        type: \"object\",\r\n                        properties: {\r\n                          type: {\r\n                            type: \"string\",\r\n                            enum: [\r\n                              \"TIPDOC_FS000\",\r\n                              \"TIPDOC_FS001\",\r\n                              \"TIPDOC_FS002\",\r\n                              \"TIPDOC_FS003\",\r\n                              \"TIPDOC_FS004\",\r\n                              \"TIPDOC_FS005\",\r\n                              \"TIPDOC_FS006\",\r\n                              \"TIPDOC_FS007\",\r\n                              \"TIPDOC_FS008\",\r\n                              \"TIPDOC_FS009\",\r\n                              \"TIPDOC_FS010\",\r\n                            ],\r\n                            maxLength: 12,\r\n                            minLength: 12,\r\n                          },\r\n                          number: {\r\n                            type: \"string\",\r\n                            maxLength: 50,\r\n                            minLength: 1,\r\n                            pattern: \"^[0-9]*$\",\r\n                          },\r\n                        },\r\n                        required: [\"type\", \"number\"],\r\n                      },\r\n                    },\r\n                    required: [\"identification\"],\r\n                  },\r\n                  format: {\r\n                    type: \"object\",\r\n                    properties: {\r\n                      id: {\r\n                        type: \"string\",\r\n                        enum: [\"CSV\", \"TXT\", \"XLS\"],\r\n                        maxLength: 3,\r\n                        minLength: 3,\r\n                        name: \"id (format)\",\r\n                      },\r\n                    },\r\n                    required: [\"id\"],\r\n                  },\r\n                  date: {\r\n                    type: \"object\",\r\n                    properties: {\r\n                      startDate: {\r\n                        type: \"string\",\r\n                        maxLength: 10,\r\n                        minLength: 10,\r\n                        pattern:\r\n                          \"^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$\",\r\n                      },\r\n                      endDate: {\r\n                        type: \"string\",\r\n                        maxLength: 10,\r\n                        minLength: 10,\r\n                        pattern:\r\n                          \"^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$\",\r\n                      },\r\n                    },\r\n                    required: [\"startDate\", \"endDate\"],\r\n                  },\r\n                },\r\n                required: [\"customer\", \"format\", \"date\"],\r\n              },\r\n            },\r\n            required: [\"user\", \"salesReport\"],\r\n          },\r\n        },\r\n        required: [\"data\"],\r\n      },\r\n    };\r\n    const getRequestBody = new Promise((resolve, reject) => {\r\n      context.message.body.readAsJSON((error, json) =>\r\n        error ? reject(error) : resolve(json)\r\n      );\r\n    });\r\n\r\n    const requestBodyValidation = (requestBody) => {\r\n      validateTags(bodyConstraints, requestBody);\r\n\r\n      if (errors.length > 0) {\r\n        context.set(\"ctx.errors\", errors);\r\n        throwParameterError(\"ParametersException\");\r\n      }\r\n    };\r\n\r\n    getRequestBody.then(requestBodyValidation, handleError);\r\n\r\n    if (errors.length > 0) {\r\n      context.set(\"ctx.errors\", errors);\r\n      throwParameterError(\"ParametersException\");\r\n    }\r\n  } catch (e) {\r\n    handleError(e);\r\n  }\r\n}\r\n\r\nfunction validateRequestHeaders(constraints, requestHeaders) {\r\n  const constraintsTags = Object.entries(constraints);\r\n  const validation = constraintsTags\r\n    .map((constraint) => {\r\n      const [constraintName, constraintValue] = constraint;\r\n      const tagToValidate = Object.entries(requestHeaders).find(\r\n        (tag) => tag[0].toUpperCase() === constraintName.toUpperCase()\r\n      );\r\n      \r\n      if ((!tagToValidate || !requestHeaders[tagToValidate[0]]) && constraintValue.required) {\r\n        const detail = `Parámetro ${constraintName} es requerido`;\r\n        const code = \"SA400\";\r\n        errors.push({ code, detail });\r\n        return false;\r\n      }\r\n      return validatePrimitives(constraintValue, tagToValidate);\r\n    })\r\n    .every(Boolean)\r\n    ? true\r\n    : false;\r\n  return validation;\r\n}\r\n\r\nfunction validateTags(constraints, request) {\r\n  let validation;\r\n  const tagConstraints = Object.entries(constraints);\r\n  const requestTagNames = Object.keys(request);\r\n\r\n  tagConstraints.map((tagConstraint) => {\r\n    const [tagConstraintName, tagConstraintValue] = tagConstraint;\r\n\r\n    if (\r\n      tagConstraintValue.properties ||\r\n      (tagConstraintValue.items && tagConstraintValue.items.properties)\r\n    ) {\r\n      const { required, properties } = tagConstraintValue.properties\r\n        ? tagConstraintValue\r\n        : tagConstraintValue.items;\r\n\r\n      const validTagNames = Object.keys(properties);\r\n\r\n      if (required) {\r\n        validateRequiredTags(required, requestTagNames);\r\n      }\r\n\r\n      validation = requestTagNames\r\n        .map((requestTagName) => {\r\n          return validateTag(\r\n            validTagNames,\r\n            requestTagName,\r\n            properties,\r\n            request[requestTagName]\r\n          );\r\n        })\r\n        .every(Boolean)\r\n        ? true\r\n        : false;\r\n    } else {\r\n      if (\r\n        tagConstraintValue.required &&\r\n        !requestTagNames.includes(tagConstraintName)\r\n      ) {\r\n        const detail = `Parámetro ${tagConstraintName} requerido.`;\r\n        const code = \"SA400\";\r\n        errors.push({ code, detail });\r\n      } else {\r\n        const requestTagTovalidate = Object.entries(request).filter(\r\n          (recuestField) => recuestField[0] === tagConstraintName\r\n        );\r\n        if (requestTagTovalidate) {\r\n          validation = validatePrimitives(\r\n            constraints[tagConstraintName],\r\n            requestTagTovalidate[0]\r\n          );\r\n        }\r\n      }\r\n    }\r\n  });\r\n  return validation;\r\n}\r\n\r\nfunction validateTag(\r\n  validTagNames,\r\n  requestTagName,\r\n  constraints,\r\n  requestObject\r\n) {\r\n  if (!validTagNames.includes(requestTagName)) {\r\n    const detail = `Parámetro ${requestTagName} no es un tag válido`;\r\n    const code = \"SA400\";\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  const tagConstraint = {};\r\n  if (Array.isArray(requestObject)) {\r\n    if (typeof requestObject[0] !== \"object\") {\r\n      return validatePrimitives(constraints[requestTagName], [\r\n        requestTagName,\r\n        requestObject,\r\n      ]);\r\n    }\r\n    return requestObject\r\n      .map((item) => {\r\n        tagConstraint[requestTagName] = constraints[requestTagName];\r\n        return validateTags(tagConstraint, item);\r\n      })\r\n      .every(Boolean)\r\n      ? true\r\n      : false;\r\n  }\r\n\r\n  if (typeof requestObject !== \"object\") {\r\n    return validatePrimitives(constraints[requestTagName], [\r\n      requestTagName,\r\n      requestObject,\r\n    ]);\r\n  }\r\n  tagConstraint[requestTagName] = constraints[requestTagName];\r\n  return validateTags(tagConstraint, requestObject);\r\n}\r\n\r\nfunction validateRequiredTags(requiredTags, requestTagNames) {\r\n  requiredTags.map((requiredTag) => {\r\n    if (!requestTagNames.includes(requiredTag)) {\r\n      const detail = `Parámetro ${requiredTag} requerido`;\r\n      const code = \"SA400\";\r\n      errors.push({ code, detail });\r\n    }\r\n  });\r\n}\r\n\r\nfunction validatePrimitives(constraint, entrie) {\r\n  const value = entrie[1];\r\n  const isArray = Array.isArray(value);\r\n  if (isArray) {\r\n    if (constraint.items.type === \"string\") {\r\n      return validateStringArray(constraint.items, entrie);\r\n    }\r\n    if (constraint.items.type === \"number\") {\r\n      return validateNumberArray(constraint.items, entrie);\r\n    }\r\n    if (constraint.items.type === \"integer\") {\r\n      return validateNumberArray(constraint.items, entrie);\r\n    }\r\n    if (constraint.items.type === \"boolean\") {\r\n      return validateBooleanArray(constraint.items, entrie);\r\n    }\r\n  }\r\n  if (constraint.type === \"string\") {\r\n    return validateString(constraint, entrie);\r\n  }\r\n  if (constraint.type === \"number\") {\r\n    return validateNumber(constraint, entrie);\r\n  }\r\n  if (constraint.type === \"integer\") {\r\n    return validateNumber(constraint, entrie);\r\n  }\r\n  if (constraint.type === \"boolean\") {\r\n    return validateBoolean(constraint, entrie);\r\n  }\r\n}\r\n\r\nfunction validateString(constraint, entrie) {\r\n  const code = \"SA400\";\r\n  const type = \"string\";\r\n  const [name, value] = entrie;\r\n  const { minLength, maxLength, pattern } = constraint;\r\n  const enumConstraints = constraint.enum;\r\n  const validPattern = pattern ? new RegExp(pattern) : null;\r\n\r\n  const fieldName = constraint.name ? constraint.name : name;\r\n\r\n  if (typeof value !== type) {\r\n    const detail = `El valor del parámetro ${fieldName} se espera que sea de tipo ${type}`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (validPattern && !validPattern.test(value)) {\r\n    const detail = `El valor del parámetro ${fieldName} es inválido`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (enumConstraints && !enumConstraints.includes(value)) {\r\n    const detail = `El valor del parámetro ${fieldName} no hace parte de los valores válidos`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (minLength && value.length < minLength) {\r\n    const detail = `Longitud del parámetro ${fieldName} es menor a la longitud mínima esperada: ${minLength}`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (maxLength && value.length > maxLength) {\r\n    const detail = `Longitud del parámetro ${fieldName} es mayor a la longitud máxima esperada: ${maxLength}`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n\r\n  return true;\r\n}\r\n\r\nfunction validateStringArray(constraint, tagToValidate) {\r\n  const [parameterName, arrayString] = tagToValidate;\r\n  return arrayString\r\n    .map((stringValue) =>\r\n      validateString(constraint, [parameterName, stringValue])\r\n    )\r\n    .every(Boolean)\r\n    ? true\r\n    : false;\r\n}\r\n\r\nfunction validateNumber(constraint, tagToValidate) {\r\n  const code = \"SA400\";\r\n  const [name, value] = tagToValidate;\r\n  const { minimum, maximum, pattern } = constraint;\r\n  const enumConstraints = constraint.enum;\r\n  const validPattern = pattern ? new RegExp(pattern) : null;\r\n\r\n  const fieldName = constraint.name ? constraint.name : name;\r\n\r\n  if (typeof value !== \"number\") {\r\n    const detail = `El valor del parámetro ${fieldName} se espera que sea de tipo number`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (validPattern && !validPattern.test(value)) {\r\n    const detail = `El valor del parámetro ${fieldName} es inválido`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (enumConstraints && !enumConstraints.includes(value)) {\r\n    const detail = `El valor del parámetro ${fieldName} no hace parte de los valores válidos`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (value < minimum) {\r\n    const detail = `El valor del parámetro ${fieldName} es menor que el valor permitido: ${minimum}`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  if (value > maximum) {\r\n    const detail = `El valor del parámetro ${fieldName} es mayor que el valor permitido: ${maximum}`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  return true;\r\n}\r\n\r\nfunction validateNumberArray(constraint, tagToValidate) {\r\n  const [parameterName, arrayNumber] = tagToValidate;\r\n  return arrayNumber\r\n    .map((numberValue) =>\r\n      validateNumber(constraint, [parameterName, numberValue])\r\n    )\r\n    .every(Boolean)\r\n    ? true\r\n    : false;\r\n}\r\n\r\nfunction validateBoolean(constraint, tagToValidate) {\r\n  const code = \"SA400\";\r\n  const [name, value] = tagToValidate;\r\n  const { type } = constraint;\r\n\r\n  if (typeof value !== type) {\r\n    const detail = `El valor del parámetro ${name} se espera que sea de tipo boolean`;\r\n    errors.push({ code, detail });\r\n    return false;\r\n  }\r\n  return true;\r\n}\r\n\r\nfunction validateBooleanArray(constraint, tagToValidate) {\r\n  const [parameterName, arrayBoolean] = tagToValidate;\r\n  return arrayBoolean\r\n    .map((booleanValue) =>\r\n      validateBoolean(constraint, [parameterName, booleanValue])\r\n    )\r\n    .every(Boolean)\r\n    ? true\r\n    : false;\r\n}\r\n\r\nfunction getConsumer(appName) {\r\n  try {\r\n    const consumerId = appName.split(\"-\")[1];\r\n    if (!consumerId) {\r\n      const detail = \"Identificación de aplicación inválida\";\r\n      const code = \"SA409\";\r\n      errors.push({ code, detail });\r\n      context.set(\"ctx.errors\", errors);\r\n    }\r\n    return consumerId;\r\n  } catch (exception) {\r\n    const detail = \"Identificación de aplicación inválida\";\r\n    const code = \"SA409\";\r\n    errors.push({ code, detail });\r\n    context.set(\"ctx.errors\", errors);\r\n  }\r\n}\r\n\r\nfunction throwParameterError(errorName) {\r\n  const description = \"Bad Request\";\r\n  const code = \"400\";\r\n  context.set(\"ctx.errorData\", { description, code });\r\n  context.reject(errorName, description);\r\n  context.message.statusCode = code;\r\n}\r\n"
+                    description: >-
+                      Se realiza la validación de los parámetros del query de la
+                      solicitud del método.
+                    version: 2.0.0
+                - switch:
+                    title: switch
+                    case:
+                      - condition: (env.path = 'sb')
+                        execute:
+                          - gatewayscript:
+                              title: map-sandbox
+                              source: >-
+                                context.set('message.headers.Origin',
+                                context.get('request.path'));
+
+                                context.set('message.headers.Client-Id',
+                                context.get('client.app.id'));
+
+                                context.set('message.headers.Content-Type',
+                                'application/vnd.bancolombia.v4+json');
+
+                                context.set('message.headers.x-api-sandbox',
+                                context.get('api.name'));
+                              description: >-
+                                Se filtra y configura los valores de la cabecera
+                                de respuesta del API.
+                              version: 2.0.0
+                          - invoke:
+                              title: invoke
+                              verb: POST
+                              timeout: 5
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error:
+                                - ConnectionError
+                              version: 2.2.0
+                              tls-profile: $(TLS-Profile):1.0.0
+                              target-url: $(endpoint)$(api.root)$(api.operation.path)
+                              header-control:
+                                type: blocklist
+                                values:
+                                  - ^Client-Id$
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              persistent-connection: true
+                              follow-redirects: false
+                      - otherwise:
+                          - gatewayscript:
+                              title: set-headers-body
+                              source: |-
+                                initData();
+
+                                function initData() {
+                                    var body = context.get('request.body');
+                                    context.message.body.write(body);
+                                    buildHeader();
+                                }
+
+                                function buildHeader() {
+                                    context.set('message.headers.client-id', context.get('client.app.id'));
+                                    context.set('message.headers.message-id', context.get('request.headers.message-id'));
+                                    context.set('message.headers.accept', 'application/json');
+                                }
+                              description: >-
+                                Se configuran los valores de la cabecera y el
+                                body de request hacia el servicio.
+                              version: 2.0.0
+                          - invoke:
+                              title: invoke
+                              verb: POST
+                              timeout: 7
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error:
+                                - ConnectionError
+                              version: 2.2.0
+                              tls-profile: $(TLS-Profile):1.0.0
+                              target-url: $(endpoint)
+                              header-control:
+                                type: blocklist
+                                values:
+                                  - ^Client-Id$
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              persistent-connection: true
+                              follow-redirects: false
+                          - gatewayscript:
+                              title: validate-response
+                              source: "const errors = [];\r\n\r\ntry {\r\n  const getResponseBody = new Promise((resolve, reject) => {\r\n    context.message.body.readAsJSON((error, json) =>\r\n      error ? reject(error) : resolve(json)\r\n    );\r\n  });\r\n\r\n  const responseBodyValidation = (responseBody) => {\r\n    if (responseBody.data) {\r\n      const body = {\r\n        meta: context.get('ctx.meta'),\r\n        data: responseBody.data,\r\n      };\r\n      context.set(\"message.body\", body);\r\n    } else {\r\n      var err = responseBody.errors[0].code.substring(2, 5);\r\n      var description = err === \"400\" ? \"Bad Request\" : err == \"404\" ? \"Not Found\" : \"Internal Server Error\";\r\n      \r\n      context.set(\"ctx.errors\", responseBody.errors);\r\n      throwError(\"ParametersException\", description, err);\r\n    }\r\n  };\r\n\r\n  getResponseBody.then(responseBodyValidation, handleError);\r\n} catch (e) {\r\n  handleError(e);\r\n}\r\n\r\nfunction handleError(e) {\r\n  const detail = e.message;\r\n  const code = \"SA500\";\r\n  errors.push({ code, detail });\r\n  context.set(\"ctx.errors\", errors);\r\n  throwParameterError(\"ParametersException\");\r\n}\r\n\r\nfunction throwError(errorName, description, code) {\r\n  context.set(\"ctx.errorData\", { description, code });\r\n  context.reject(errorName, description);\r\n  context.message.statusCode = code;\r\n}\r\n"
+                              description: >-
+                                Se configuran los valores del body de respuesta
+                                hacia la API.
+                              version: 2.0.0
+                    version: 2.0.0
+            - condition: ($operationID() = 'healthOperation')
+              execute: []
+          version: 2.0.0
+    catch:
+      - errors:
+          - ParametersException
+        execute:
+          - gatewayscript:
+              title: parameters-exception
+              source: >-
+                const HTTPErrors = { "400": "Bad Request", "404": "Not Found",
+                "409": "Conflict", "500": "Internal Server Error", "502": "Bad
+                Gateway", "503": "Service Unavailable", "504": "504 Gateway
+                Timeout" };
+
+
+                const parametersExceptionNodeCode = () => {
+                  const errorData = context.get('ctx.errorData');
+                  const errors = context.get('ctx.errors');
+                  const status = JSON.parse(errorData.code);
+                  const failure = {
+                    meta: context.get('ctx.meta'),
+                    status,
+                    title: HTTPErrors[status],
+                    errors
+                  }
+                  context.set('message.body', failure);
+                  context.set('message.status.code', status);
+                }
+                    
+                parametersExceptionNodeCode();
+              description: ""
+              version: 2.0.0
+        arrayName: execute
+      - errors:
+          - ConnectionError
+        execute:
+          - gatewayscript:
+              title: connection-exception
+              source: |-
+                const connectionExceptionNodeCode = () => {
+                const status = 504;
+                const failure = {
+                  meta: context.get('ctx.meta'),
+                  status,
+                  title: 'Gateway Timeout',
+                  errors: [
+                    {
+                      code: "SA".concat(status),
+                      detail: 'No se recibió respuesta del servidor en el tiempo esperado'
+                    }
+                  ]
+                };
+                context.set('message.body', failure);
+                context.set('message.status.code', status);
+                }
+                    
+                connectionExceptionNodeCode();
+              description: ""
+              version: 2.0.0
+        arrayName: execute
+      - default:
+          - gatewayscript:
+              title: default-exception
+              source: |-
+                const defaultExceptionNodeCode = () => {
+                  const statusCode = 500;
+                  const failure = {
+                    meta: context.get('ctx.meta'),
+                    statusCode,
+                    title: 'Internal Server Error',
+                    errors: [
+                      {
+                        code: 'SA'.concat(statusCode),
+                        detail: 'Se ha presentado un error inesperado'
+                      }
+                    ]
+                  };
+                  context.set('message.body', failure);
+                  context.set('message.status.code', statusCode);
+                }
+                defaultExceptionNodeCode();
+              description: ""
+              version: 2.0.0
+    finally:
+      - gatewayscript:
+          title: filter-headers
+          source: >-
+            const filterHeaders = () => {
+
+            const header_meta = require('header-metadata');
+
+            header_meta.current.headers = {
+              "API-Version": context.get('api.version'),
+              "RateLimit-Limit": context.get('plan.rate-limit')[0].value,
+              "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+              "X-Content-Type-Options": "nosniff",
+              "X-Frame-Options": "DENY",
+              "Cache-Control": "private, no-cache, no-store, max-age=0, no-transform",
+              'X-Permitted-Cross-Domain-Policies': 'master-only',
+              'Referrer-Policy': 'strict-origin-when-cross-origin',
+              'X-Xss-Protection': '1; mode=block',
+              "Pragma": "no-cache",
+              "Expires": 0,
+              "Content-Security-Policy": "default-src 'self' *.bancolombia.com"
+            }
+
+            context.set('message.headers.Content-Type',
+            'application/vnd.bancolombia.v4+json; charset=utf-8;');
+                
+            const messageId = context.get('request.headers.Message-Id');
+              if (messageId) {
+                    context.set('message.headers.Message-Id', messageId);
+              }
+            }
+
+            filterHeaders();
+          description: >-
+            Se filtra y configura los valores de la cabecera de respuesta del
+            API.
+          version: 2.0.0
+  type: rest
+  activity-log:
+    enabled: true
+    success-content: payload
+    error-content: payload
+  buffering: true
+x-API-Protocol:
+  Protocols: HTTPS
